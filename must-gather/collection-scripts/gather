@@ -49,6 +49,8 @@ cluster_resources+=(clusterrolebindings)
 cluster_resources+=(persistentvolumes)
 cluster_resources+=(clusterversion)
 cluster_resources+=(machineconfigpool)
+cluster_resources+=(clusterlogging)
+cluster_resources+=(clusterlogforwarder)
 
 log "-BEGIN inspecting CRs..." >> "${LOGFILE_PATH}"
 for cr in "${cluster_resources[@]}" ; do
