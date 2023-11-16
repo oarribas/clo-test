@@ -36,11 +36,12 @@ Example must-gather for cluster-logging output:
 ```
 ├── cluster-logging
 │  ├── clo
-│  │  ├── [nampespace_name]       ## including openshift-logging
-│  │  │  ├── cluster-logging-operator-74dd5994f-6ttgt
-│  │  │  ├── cr
-│  │  │  ├── csv
-│  │  │  └── deployment
+│  │  ├── cluster-logging-operator-74dd5994f-6ttgt
+│  │  ├── clusterlogforwarder_cr
+│  │  ├── cr
+│  │  ├── csv
+│  │  ├── deployment
+│  │  └── logforwarding_cr
 │  ├── collector
 │  │  ├── fluentd-2tr64
 │  ├── eo
@@ -84,7 +85,7 @@ Example must-gather for cluster-logging output:
 ├── event-filter.html
 ├── gather-debug.log
 └── namespaces
-   ├── [namespace_name]       ## including openshift-logging
+   ├── openshift-logging
    │  ├── apps
    │  │  ├── daemonsets.yaml
    │  │  ├── deployments.yaml
@@ -93,11 +94,6 @@ Example must-gather for cluster-logging output:
    │  ├── batch
    │  │  ├── cronjobs.yaml
    │  │  └── jobs.yaml
-   │  ├── logging.openshift.io/
-   │  │  ├── clusterloggings
-   │  │  │  ├── instance.yaml
-   │  │  ├── clusterlogforwarders
-   │  │  │  └── [clf_name.yaml]
    │  ├── core
    │  │  ├── configmaps.yaml
    │  │  ├── endpoints.yaml
@@ -180,10 +176,3 @@ Example must-gather for cluster-logging output:
    └── openshift-operators-redhat
       ├── ...
 ```
-
-### Moved resources
-With the support of [multi log forwarder feature](https://docs.openshift.com/container-platform/4.14/logging/log_collection_forwarding/log-forwarding.html#log-forwarding-implementations-multi-clf_log-forwarding) in Openshift Cluster Logging 5.8, CLO resources are moved from `cluster-logging/clo/` to `cluster-logging/clo/[namespace_name]` (to allow multiple instances).
-
-Also, resources like `clusterlogging` and `clusterlogforwarder` are now collected into `namespaces/[namespace_name]/logging.openshift.io/` directories and not in `cluster-logging/clo`. That allows to use tools like [`omc`](https://github.com/gmeghnag/omc/) to work with those resources.
-
-The `deployments`, `daemonsets` and `secrets` can be also found in `namespaces/[namespace_name]/` and can be seen also with [`omc`](https://github.com/gmeghnag/omc/).
