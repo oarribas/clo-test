@@ -90,10 +90,10 @@ for namespace in "${cluster_resources[@]}" ; do
 done
 log "END inspecting namespaces ..." >> "${LOGFILE_PATH}"
 
-
 log "Data for resources collected with inspects" >> "${LOGFILE_PATH}"
 echo -e "additional resources are now collected by inspect\nSee https://github.com/openshift/cluster-logging-operator/tree/master/must-gather#moved-resources" > $BASE_COLLECTION_PATH/cluster-logging/resources.txt
 
+default_clo_found="$(oc -n "$LOGGING_NS" get deployment cluster-logging-operator --ignore-not-found --no-headers)"
 if [ "$default_clo_found" != "" ] ; then
   log "BEGIN gathering default CLO resources ..." >> "${LOGFILE_PATH}"
   ${SCRIPT_DIR}/gather_cluster_logging_operator_resources "$BASE_COLLECTION_PATH" "$LOGGING_NS" >> "${LOGFILE_PATH}" 2>&1
