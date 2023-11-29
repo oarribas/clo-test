@@ -107,6 +107,7 @@ found_es="$(oc -n $LOGGING_NS get elasticsearch elasticsearch --ignore-not-found
 found_lokistack="$(oc -n $LOGGING_NS get lokistack.loki.grafana.com --ignore-not-found --no-headers)"
 if [ "$found_es" != "" ] || [ "$found_lokistack" != "" ] ; then
   # Call per component gather scripts
+  log "BEGIN gathering logstorage resources ..." >> "${LOGFILE_PATH}"
   if [ "$found_es" != "" ] ; then
     log "BEGIN gathering EO resources ..." >> "${LOGFILE_PATH}"
     ${SCRIPT_DIR}/gather_elasticsearch_operator_resources "$BASE_COLLECTION_PATH" >> "${LOGFILE_PATH}" 2>&1
@@ -121,7 +122,7 @@ if [ "$found_es" != "" ] || [ "$found_lokistack" != "" ] ; then
   if [ "$found" != "" ] ; then
     KUBECACHEDIR=${BASE_COLLECTION_PATH}/cache-dir ${SCRIPT_DIR}/gather_visualization_resources "$BASE_COLLECTION_PATH" >> "${LOGFILE_PATH}" 2>&1
   fi
-  log "BEGIN gathering CLO resources ..." >> "${LOGFILE_PATH}"
+  log "END gathering logstorage resources ..." >> "${LOGFILE_PATH}"
 else
   log "Skipping logstorage inspection.  No Elasticsearch deployment found" >> "${LOGFILE_PATH}" 2>&1
 fi
