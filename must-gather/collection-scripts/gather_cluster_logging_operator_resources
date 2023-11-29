@@ -30,27 +30,7 @@ if [ $NAMESPACE == "openshift-logging" ]; then
       get_env $pod $clo_folder $NAMESPACE "Dockerfile-*operator*"
   done
 
-  oc -n $NAMESPACE get deployment cluster-logging-operator -o yaml --cache-dir=${KUBECACHEDIR} > $clo_folder/deployment
-
-  for csv in $(oc -n $NAMESPACE get csv -o name) ; do
-    mkdir -p "$(dirname ${clo_folder}/$csv)"
-    oc -n $NAMESPACE get "${csv}" -o yaml --cache-dir=${KUBECACHEDIR} > ${clo_folder}/"${csv}.yaml"
-  done
 fi
-
-log "Gathering data for 'clusterlogging' and 'clusterlogforwarder' from namespace: $NAMESPACE"
-for r in "clusterlogging" "clusterlogforwarder" ; do
-  names="$(oc -n $NAMESPACE get $r --ignore-not-found -o jsonpath='{.items[*].metadata.name}' | sort -u)"
-  for name in ${names[@]}; do
-    data="$(oc -n $NAMESPACE get $r ${name} --ignore-not-found -o yaml)"
-    if [ "$data" != "" ] ; then
-      echo "${data}" > "${clo_folder}/${r}_${name}.yaml"
-    fi
-  done
-done
-
-log "Gathering 'secrets' from logging namespace: $NAMESPACE"
-oc -n $NAMESPACE get secrets -o yaml > ${clo_folder}/secrets.yaml 2>&1
 
 log "Gathering any 'vector.toml' from logging namespace: $NAMESPACE"
 secret_names=$(oc -n $NAMESPACE get secrets -o custom-columns=:.metadata.name | grep -e '-config')
@@ -61,14 +41,9 @@ for name in ${secret_names[@]}; do
   fi
 done
 
-log "Gathering 'deployments' and 'daemonsets' and 'version' from logging namespace: $NAMESPACE"
+log "Gathering 'version' from logging namespace: $NAMESPACE"
 csv_name="$(oc -n $NAMESPACE get csv -o name | grep -E 'cluster(-?)logging')"
-oc -n $NAMESPACE get deployments -o wide > ${clo_folder}/deployments.txt --cache-dir=${KUBECACHEDIR} 2>&1
-oc -n $NAMESPACE get ds -o wide > ${clo_folder}/daemonsets.txt --cache-dir=${KUBECACHEDIR} 2>&1
 oc -n $NAMESPACE get "${csv_name}" -o jsonpath='{.spec.displayName}{"/must-gather\n"}{.spec.version}' --cache-dir=${KUBECACHEDIR} > "${clo_folder}/version"
-
-log "Gathering 'logfilemetricexporter' from namespace: $NAMESPACE"
-oc -n $NAMESPACE get lfme -o yaml > ${clo_folder}/lfme.yaml 2>&1
 
 log "Checking for legacy es and fluentd resources"
 for r in "secret/elasticsearch" "configmap/collector" ; do

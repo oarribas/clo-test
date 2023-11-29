@@ -49,6 +49,7 @@ cluster_resources+=(clusterrolebindings)
 cluster_resources+=(persistentvolumes)
 cluster_resources+=(clusterversion)
 cluster_resources+=(machineconfigpool)
+cluster_resources+=(customresourcedefinitions)
 
 log "-BEGIN inspecting CRs..." >> "${LOGFILE_PATH}"
 for cr in "${cluster_resources[@]}" ; do
@@ -65,6 +66,12 @@ resources+=(rolebindings)
 resources+=(configmaps)
 resources+=(serviceaccounts)
 resources+=(events)
+resources+=(installplans)
+resources+=(subscriptions)
+resources+=(clusterserviceversions)
+resources+=(clusterlogging)
+resources+=(clusterlogforwarder)
+resources+=(logfilemetricexporter)
 
 log "BEGIN inspecting namespaces ..." >> "${LOGFILE_PATH}"
 
@@ -84,15 +91,8 @@ done
 log "END inspecting namespaces ..." >> "${LOGFILE_PATH}"
 
 
-log "BEGIN inspecting install resources ..." >> "${LOGFILE_PATH}"
-eo_found="$(oc -n openshift-operators-redhat get deployment elasticsearch-operator --ignore-not-found --no-headers)"
-default_clo_found="$(oc -n "$LOGGING_NS" get deployment cluster-logging-operator --ignore-not-found --no-headers)"
-if [ "$default_clo_found" != "" ] || [ "$eo_found" != "" ] ; then
-    ${SCRIPT_DIR}/gather_install_resources "$BASE_COLLECTION_PATH" >> "${LOGFILE_PATH}" 2>&1
-else
-  log "Skipping install inspection.  No default CLO or EO deployment found in namespace: $LOGGING_NS" >> "${LOGFILE_PATH}" 2>&1
-fi
-log "END inspecting install resources ..." >> "${LOGFILE_PATH}"
+log "Data for resources collected with inspects" >> "${LOGFILE_PATH}"
+echo -e "additional resources are now collected by inspect\nSee https://github.com/openshift/cluster-logging-operator/tree/master/must-gather#moved-resources" > $BASE_COLLECTION_PATH/cluster-logging/resources.txt
 
 if [ "$default_clo_found" != "" ] ; then
   log "BEGIN gathering default CLO resources ..." >> "${LOGFILE_PATH}"
