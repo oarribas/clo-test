@@ -39,15 +39,16 @@ Example must-gather for cluster-logging output:
 │  │  └── [nampespace_name]       ## including openshift-logging
 │  │     ├── cluster-logging-operator-74dd5994f-6ttgt
 │  │     ├── cr
-│  │     ├── csv
-│  │     └── deployment
+│  │     ├── collector-config_vector.toml
+│  │     ├── version
+│  │     └── [keys]
 │  ├── collectors
-│  │  ├── [nampespace_name]       ## including openshift-logging
-│  │  └── collector-2tr64
+│  │  └── [nampespace_name]       ## including openshift-logging
+│  │     └── collector-2tr64.describe
 │  ├── eo
-│  │  ├── csv
-│  │  ├── deployment
-│  │  └── elasticsearch-operator-7dc7d97b9d-jb4r4
+│  │  ├── elasticsearch-operator-7dc7d97b9d-jb4r4
+│  │  ├── indicex.txt
+│  │  └── eo-deployment.describe
 │  ├── es
 │  │  ├── cluster-elasticsearch
 │  │  │  ├── aliases.cat
@@ -68,11 +69,6 @@ Example must-gather for cluster-logging output:
 │  │  ├── elasticsearch-cdm-lp8l38m0-1-794d6dd989-4jxms
 │  │  └── logs
 │  │     └── elasticsearch-cdm-lp8l38m0-1-794d6dd989-4jxms
-│  ├── install
-│  │  ├── co_logs
-│  │  ├── install_plan
-│  │  ├── olmo_logs
-│  │  └── subscription
 │  └── kibana
 │     ├── cr
 │     └── kibana-9d69668d4-2rkvz
