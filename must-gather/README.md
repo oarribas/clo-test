@@ -38,16 +38,16 @@ Example must-gather for cluster-logging output:
 │  ├── clo
 │  │  ├── [nampespace_name]       ## including openshift-logging
 │  │  │  ├── cluster-logging-operator-74dd5994f-6ttgt
-│  │  │  ├── cr
-│  │  │  ├── csv
-│  │  │  └── deployment
+│  │  │  ├── collector-config_vector.toml
+│  │  │  ├── version
+│  │  │  └── keys
 │  ├── collectors
-│  │  ├── [nampespace_name]       ## including openshift-logging
-│  │  ├── collector-2tr64
+│  │  └── [nampespace_name]       ## including openshift-logging
+│  │     └── collector-2tr64.describe
 │  ├── eo
-│  │  ├── csv
-│  │  ├── deployment
-│  │  └── elasticsearch-operator-7dc7d97b9d-jb4r4
+│  │  ├── elasticsearch-operator-7dc7d97b9d-jb4r4
+│  │  ├── indicex.txt
+│  │  └── eo-deployment.describe
 │  ├── es
 │  │  ├── cluster-elasticsearch
 │  │  │  ├── aliases.cat
@@ -67,21 +67,16 @@ Example must-gather for cluster-logging output:
 │  │  ├── cr
 │  │  ├── elasticsearch-cdm-lp8l38m0-1-794d6dd989-4jxms
 │  │  └── logs
-│  │     ├── elasticsearch-cdm-lp8l38m0-1-794d6dd989-4jxms
-│  ├── install
-│  │  ├── co_logs
-│  │  ├── install_plan
-│  │  ├── olmo_logs
-│  │  └── subscription
+│  │     └── elasticsearch-cdm-lp8l38m0-1-794d6dd989-4jxms
 │  └── kibana
 │     ├── cr
-│     ├── kibana-9d69668d4-2rkvz
+│     └── kibana-9d69668d4-2rkvz
 ├── cluster-scoped-resources
 │  └── core
 │     ├── nodes
-│     │  ├── ip-10-0-146-180.eu-west-1.compute.internal.yaml
+│     │  └── ip-10-0-146-180.eu-west-1.compute.internal.yaml
 │     └── persistentvolumes
-│        ├── pvc-0a8d65d9-54aa-4c44-9ecc-33d9381e41c1.yaml
+│        └── pvc-0a8d65d9-54aa-4c44-9ecc-33d9381e41c1.yaml
 ├── event-filter.html
 ├── gather-debug.log
 └── namespaces
