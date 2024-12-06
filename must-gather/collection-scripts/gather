@@ -57,13 +57,13 @@ cluster_resources+=(uiplugin)
 cluster_resources+=(customresourcedefinitions)
 
 log "- BEGIN inspecting cluster resources and namespaces..." | tee -a "${LOGFILE_PATH}"
-echo "${cluster_resources[@]}"
+
 for cr in "${cluster_resources[@]}" ; do
   log "-- BEGIN inspecting cluster resource ${cr} ..." | tee -a "${LOGFILE_PATH}"
   oc adm inspect --cache-dir=${KUBECACHEDIR} --dest-dir="${BASE_COLLECTION_PATH}" "${cr}"  >> "${LOGFILE_PATH}" 2>&1 &
   pids+=($!)
 done
-echo "${namespace_resources[@]}"
+
 for ns in "${namespace_resources[@]}" ; do
   log "-- BEGIN inspecting namespace ${ns} ..." | tee -a "${LOGFILE_PATH}"
   oc adm inspect --cache-dir=${KUBECACHEDIR} --dest-dir="${BASE_COLLECTION_PATH}" "ns/${ns}"  >> "${LOGFILE_PATH}" 2>&1 &
@@ -75,7 +75,7 @@ log "- END inspecting cluster resources..." | tee -a "${LOGFILE_PATH}"
 resources="pods,roles,rolebindings,configmaps,serviceaccounts,events,installplans,subscriptions,clusterserviceversions,logfilemetricexporter"
 
 log "BEGIN inspecting namespaced resources ..." | tee -a "${LOGFILE_PATH}"
-echo "${namespace_resources[@]}"
+
 for ns in ${namespace_resources[@]}    ; do
   # grab all our namespaces -- openshift-logging, openshift-operator-lifecycle-manager, openshift-operators-redhat
   # should also include any multi-forwarder namespaces found above
