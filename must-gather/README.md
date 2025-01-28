@@ -24,6 +24,7 @@ You will get a dump of:
 - The openshift-logging namespace and its children objects
 - The openshift-operators and openshift-operators-redhat namespaces and its children objects
 - Other namespaces with ClusterLogForwarder object
+- The UIplugin and console namespace
 - The cluster-logging install objects
 - All cluster-logging CRD's definitions
 - All nodes objects
@@ -36,7 +37,7 @@ run `oc adm must-gather` (without passing a custom image). Run `oc adm must-gath
 ### Resources in the generated must-gather directory
 CLO information is located in `cluster-logging/clo/`, and some resources information (like collectors) are in individual namespaces under `cluster-logging/[namespace_name]`.
 
-The `clusterlogging` and `clusterlogforwarder` resources, and also `installplans`, `subscriptions`, `clusterserviceversions`, `logfilemetricexporter`, etc. are now collected by `oc adm inspect` command in the different `namespaces/[namespace_name]/` directories and no longer in `cluster-logging/clo`. This directory structure allows tools like [`omc`](https://github.com/gmeghnag/omc/) to work with those resources in a similar way to `oc` commands on a cluster.
+The `clusterlogging` and `clusterlogforwarder` resources, and also `installplans`, `subscriptions`, `clusterserviceversions`, `logfilemetricexporter`, `uiplugion`, etc. are now collected by `oc adm inspect` command in the different `namespaces/[namespace_name]/` directories and no longer in `cluster-logging/clo`. This directory structure allows tools like [`omc`](https://github.com/gmeghnag/omc/) to work with those resources in a similar way to `oc` commands on a cluster.
 
 The `deployments`, `daemonsets` and `secrets` are also found under `namespaces/[namespace_name]/` and can also be seen using the [`omc`](https://github.com/gmeghnag/omc/) tool.
 
